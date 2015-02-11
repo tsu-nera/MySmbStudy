@@ -13,24 +13,33 @@ import org.junit.Test;
 
 public class DownloadEndToEndTest {
 
+	// See:
+	// http://www.k-tanaka.net/cmd/xcopy.php
 	private static final String XCOPY_COMMAND = "xcopy";
 	private static final String DIRECTORY_OPTION = "/i";
 	private static final String RECURSIVE_OPTION = "/e";
-	// http://www.k-tanaka.net/cmd/xcopy.php
 
+	// private static final String REMOTE_PATH = "\\\\192.168.100.102\\共有\\";
+	private static final String DEST_PATH = "C:\\app\\pleiades\\workspace\\smbstudy\\dest\\";
+	private static final String DATA_PATH = "C:\\app\\pleiades\\workspace\\smbstudy\\data\\";
+	String source, sourcePath;
+	String target, targetPath;
+	String dirName;
 
 	@Before
 	public void setUp() {
+		// source = REMOTE_PATH;
+		sourcePath = DATA_PATH;
+		targetPath = DEST_PATH;
 	}
 
 	@Test
 	public void testDownloadOneFolder() throws IOException, InterruptedException {
-		String source = "\\\\192.168.100.102\\共有\\foo";
-		String target = "C:\\app\\pleiades\\workspace\\smbstudy\\data\\foo";
+		dirName = "foo";
+		source = sourcePath.concat(dirName);
+		target = targetPath.concat(dirName);
 
-		// Process Builder生成
-		// xcopy /e /i source target ディレクトリを再帰的にコピー
-		ProcessBuilder pb = new ProcessBuilder (XCOPY_COMMAND, RECURSIVE_OPTION, DIRECTORY_OPTION,source, target);
+		ProcessBuilder pb = new ProcessBuilder (XCOPY_COMMAND, RECURSIVE_OPTION, DIRECTORY_OPTION, source, target);
 
         // 標準出力と標準エラーをマージする(Defualt false)
 		 pb.redirectErrorStream(true);
