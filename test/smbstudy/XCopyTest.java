@@ -1,10 +1,12 @@
 package smbstudy;
 
-import java.io.BufferedReader;
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,43 +38,9 @@ public class XCopyTest {
 		// プロセス完了待ち合わせ
 		process.waitFor();
 
+		Path targetP = Paths.get (target);
+		assertTrue(Files.exists(targetP));
 
-
-		// 結果の出力
-		// InputStream is = process.getInputStream();
-		// printInputStream(is);
-
-		delete(new File(target));
-	}
-
-	private void printInputStream(InputStream is) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-		try {
-			for (;;) {
-				String line = br.readLine();
-				if (line == null) break;
-				System.out.println(line);
-			}
-		} finally {
-			br.close();
-		}
-	}
-
-	private void delete(File f){
-		if( f.exists()==false ){
-			return ;
-		}
-
-		if(f.isFile()){
-			f.delete();
-		}
-
-		if(f.isDirectory()){
-			File[] files=f.listFiles();
-			for(int i=0; i<files.length; i++){
-				delete( files[i] );
-			}
-			f.delete();
-		}
+		FileUtils.delete(new File(target));
 	}
 }
