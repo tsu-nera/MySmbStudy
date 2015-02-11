@@ -11,10 +11,13 @@ import java.nio.file.Paths;
 import org.junit.Before;
 import org.junit.Test;
 
-public class XCopyTest {
+public class DownloadEndToEndTest {
 
+	private static final String XCOPY_COMMAND = "xcopy";
+	private static final String DIRECTORY_OPTION = "/i";
+	private static final String RECURSIVE_OPTION = "/e";
 	// http://www.k-tanaka.net/cmd/xcopy.php
-	static final String XCOPY_Command = "xcopy";
+
 
 	@Before
 	public void setUp() {
@@ -27,7 +30,7 @@ public class XCopyTest {
 
 		// Process Builder生成
 		// xcopy /e /i source target ディレクトリを再帰的にコピー
-		ProcessBuilder pb = new ProcessBuilder (XCOPY_Command, "/e", "/i",source, target);
+		ProcessBuilder pb = new ProcessBuilder (XCOPY_COMMAND, RECURSIVE_OPTION, DIRECTORY_OPTION,source, target);
 
         // 標準出力と標準エラーをマージする(Defualt false)
 		 pb.redirectErrorStream(true);
