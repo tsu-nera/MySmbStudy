@@ -8,11 +8,26 @@ import java.io.InputStreamReader;
 
 public class FileUtils {
 
-	/**
-	 * 結果の出力
-	 * @param ps
-	 * @throws IOException
-	 */
+	// See:
+	// http://www.k-tanaka.net/cmd/xcopy.php
+	private static final String XCOPY_COMMAND = "xcopy";
+	private static final String DIRECTORY_OPTION = "/i";
+	private static final String RECURSIVE_OPTION = "/e";
+
+
+	public static void copy(String source, String target) throws IOException, InterruptedException {
+		ProcessBuilder pb = new ProcessBuilder (XCOPY_COMMAND, RECURSIVE_OPTION, DIRECTORY_OPTION, source, target);
+
+        // 標準出力と標準エラーをマージする(Defualt false)
+		 pb.redirectErrorStream(true);
+
+		// プロセス開始
+		Process process = pb.start();
+
+		// プロセス完了待ち合わせ
+		process.waitFor();
+	}
+
 	public static void getLastMessage(Process ps) throws IOException {
 		InputStream is = ps.getInputStream();
 		printInputStream(is);
